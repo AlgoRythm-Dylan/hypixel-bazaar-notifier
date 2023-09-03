@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="BazaarNotifier.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BazaarNotifier"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Window.SystemBackdrop>
+        <DesktopAcrylicBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" x:Name="CustomTitleBar">
+            <TextBlock>Bazaar Notifier</TextBlock>
+        </StackPanel>
+
+        <NavigationView PaneDisplayMode="LeftCompact"
+                    x:Name="MainNav"
+                    Style="{StaticResource NavViewNoRoundCorner}"
+                    Grid.Row="1">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Find" Content="Bazaar Explorer" IsSelected="True" Tag="Explorer" />
+                <NavigationViewItem Icon="Flag" Content="Alerts" Tag="Alerts" />
+                <NavigationViewItem Icon="Shuffle" Content="Flipping Tutorial" Tag="Tutorial" />
+            </NavigationView.MenuItems>
+            <Frame x:Name="MainFrame"></Frame>
+        </NavigationView>
+    </Grid>
+
+</Window>

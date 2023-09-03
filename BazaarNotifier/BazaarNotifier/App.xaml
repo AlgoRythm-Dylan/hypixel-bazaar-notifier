@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="BazaarNotifier.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BazaarNotifier">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <!--<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>-->
+
+            <!-- Variables -->
+            <Thickness x:Key="Spacing">10</Thickness>
+            <Thickness x:Key="SpacingLg">20</Thickness>
+            
+            <x:Double x:Key="PageWidth">800</x:Double>
+
+            <!-- Styles -->
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="{StaticResource Spacing}"/>
+            </Style>
+            
+            <Style TargetType="StackPanel" x:Name="Page">
+                <Setter Property="MaxWidth" Value="{StaticResource PageWidth}" />
+            </Style>
+
+            <Style TargetType="NavigationView" x:Name="NavViewNoRoundCorner">
+                <Setter Property="CornerRadius" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
