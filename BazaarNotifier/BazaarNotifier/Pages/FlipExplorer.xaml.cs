@@ -1,3 +1,5 @@
+using BazaarNotifier.Lib;
+using BazaarNotifier.Lib.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -13,19 +15,33 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace BazaarNotifier.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class FlipExplorer : Page
     {
+        public List<FlipAnalyzedBazaarItem> AnalyzedItems { get; set; } = new();
         public FlipExplorer()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            BazaarAppContext.BazaarFetcher.Fetched += BazaarFetcher_Fetched;
+            if(BazaarAppContext.BazaarFetcher.LastFetch != null)
+            {
+                DisplayBazaarItems(BazaarAppContext.BazaarFetcher.LastFetch);
+            }
+        }
+
+        private void BazaarFetcher_Fetched(object sender, BazaarFetchedEventArgs e)
+        {
+            DisplayBazaarItems(e.Items);
+        }
+
+        private void DisplayBazaarItems(List<BazaarItem> items)
+        {
+            LoadingSpinner.Visibility = Visibility.Collapsed;
+            AnalyzedItems = BazaarAnalyzer.AnalyzeFlips(items, BazaarAppContext.Settings.Budget)
+                                                       .Take(25).ToList();
+            ItemsGrid.ItemsSource = AnalyzedItems;
         }
     }
 }

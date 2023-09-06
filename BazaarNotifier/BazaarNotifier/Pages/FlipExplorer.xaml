@@ -4,21 +4,39 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BazaarNotifier"
+    xmlns:uc="using:BazaarNotifier.UserControls"
+    xmlns:model="using:BazaarNotifier.Lib.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <UniformGridLayout x:Key="GridLayout" MinItemWidth="250" MinRowSpacing="10" MinColumnSpacing="10" />
+
+        <DataTemplate x:Key="GridTemplate" x:DataType="model:FlipAnalyzedBazaarItem">
+            <uc:FlipSummary FlipItem="{x:Bind}"/>
+        </DataTemplate>
+    </Page.Resources>
+    
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ScrollView>
             <StackPanel>
-                <StackPanel>
-                    <TextBlock Style="{StaticResource TitleLargeTextBlockStyle}">Hypixel Skyblock</TextBlock>
-                    <TextBlock>Bazaar Notifier</TextBlock>
-                    <TextBlock>Unnoficial program not affiliated with Hypixel</TextBlock>
+                <StackPanel Style="{StaticResource Page}">
+                    <TextBlock Style="{StaticResource DisplayTextBlockStyle}"
+                        Margin="{StaticResource SpacingLg}"
+                        TextAlignment="Center">Flip Explorer</TextBlock>
                 </StackPanel>
+                <ProgressRing x:Name="LoadingSpinner" HorizontalAlignment="Center" Margin="0 50 0 0"></ProgressRing>
+                <TextBlock x:Name="ItemCount"></TextBlock>
+                <GridView Margin="{StaticResource Spacing}"
+                          ItemTemplate="{StaticResource GridTemplate}"
+                          HorizontalAlignment="Center"
+                          x:Name="ItemsGrid">
+                    
+                </GridView>
             </StackPanel>
-        </ScrollViewer>
+        </ScrollView>
     </Grid>
     
 </Page>

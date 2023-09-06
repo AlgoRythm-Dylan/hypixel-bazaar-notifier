@@ -15,6 +15,7 @@
     <None Remove="MainPage.xaml" />
     <None Remove="Notifications.xaml" />
     <None Remove="Settings.xaml" />
+    <None Remove="UserControls\FlipSummary.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,12 @@
 
   <ItemGroup>
     <Folder Include="Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="UserControls\FlipSummary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

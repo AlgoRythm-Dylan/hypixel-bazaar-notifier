@@ -1,4 +1,5 @@
 ﻿using BazaarNotifier.Lib.Models;
+using Microsoft.UI.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace BazaarNotifier.Lib
         public static AppSettings Settings { get; set; }
         public static List<Item> Items { get; set; }
         public static MainWindow MainWindow { get; set; }
-        public static BazaarFetcher BazaarFetcher { get; set; }
+        public static BazaarFetcher BazaarFetcher { get; set; } = new();
+        public static DispatcherQueue DispatcherQueue { get; set; }
     }
 }

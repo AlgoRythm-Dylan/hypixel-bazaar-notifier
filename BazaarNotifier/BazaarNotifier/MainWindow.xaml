@@ -25,6 +25,7 @@
 
         <NavigationView PaneDisplayMode="LeftCompact"
                     x:Name="MainNav"
+                    IsBackButtonVisible="Collapsed"
                     Style="{StaticResource NavViewNoRoundCorner}"
                     Grid.Row="1">
             <NavigationView.MenuItems>

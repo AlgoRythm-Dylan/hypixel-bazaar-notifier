@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BazaarNotifier.Lib.APIResponses
 {
-    public class SkyblockBazaarResponse
+    public class SkyblockBazaarItemResponse
     {
-        [JsonPropertyName("products")]
-        public Dictionary<string, SkyblockBazaarItemResponse> Items { get; set; }
+        [JsonPropertyName("quick_status")]
+        public BazaarItem BazaarItem { get; set; }
     }
 }

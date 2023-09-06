@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using BazaarNotifier.Lib;
+using BazaarNotifier.Lib.Models;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -11,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -26,13 +30,12 @@ namespace BazaarNotifier
     /// </summary>
     public partial class App : Application
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        private HypixelAPI API { get; set; } = new();
         public App()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            BazaarAppContext.DispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            LoadData();
         }
 
         /// <summary>
@@ -43,6 +46,23 @@ namespace BazaarNotifier
         {
             m_window = new MainWindow();
             m_window.Activate();
+        }
+
+        public async Task LoadData()
+        {
+            var settings = await AppData.Load<AppSettings>("settings");
+            if(settings == null)
+            {
+                settings = new();
+                await AppData.Save("settings", settings);
+            }
+            var items = await API.GetSkyblockItems();
+            BazaarAppContext.DispatcherQueue.TryEnqueue(() =>
+            {
+                BazaarAppContext.Settings = settings;
+                BazaarAppContext.Items = items;
+                BazaarAppContext.BazaarFetcher.Start();
+            });
         }
 
         private Window m_window;

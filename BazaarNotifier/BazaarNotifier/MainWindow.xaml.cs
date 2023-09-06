@@ -31,9 +31,25 @@ namespace BazaarNotifier
 
             Title = "Bazaar Notifier";
             MainNav.ItemInvoked += OnNavigation;
+            MainNav.BackRequested += BackRequested;
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(CustomTitleBar);
+
             LoadItems();
+        }
+
+        private void BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            // Back button is implemented, but has some complications
+            // which make it not quite worth it - mainly keeping
+            // track of which menu item should be selected. This is
+            // especially complicated when you consider navigation
+            // within a frame
+            if(MainFrame.CanGoBack)
+            {
+                MainFrame.GoBack();
+            }
+            MainNav.IsBackEnabled = MainFrame.CanGoBack;
         }
 
         public async Task LoadItems()
@@ -66,6 +82,7 @@ namespace BazaarNotifier
                         break;
                 }
             }
+            MainNav.IsBackEnabled = MainFrame.CanGoBack;
         }
     }
 }

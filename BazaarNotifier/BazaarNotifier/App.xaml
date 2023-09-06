@@ -23,9 +23,10 @@
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="{StaticResource Spacing}"/>
             </Style>
-            
+
             <Style TargetType="StackPanel" x:Name="Page">
                 <Setter Property="MaxWidth" Value="{StaticResource PageWidth}" />
+                <!--<Setter Property="HorizontalAlignment" Value="Center" />-->
             </Style>
 
             <Style TargetType="NavigationView" x:Name="NavViewNoRoundCorner">
