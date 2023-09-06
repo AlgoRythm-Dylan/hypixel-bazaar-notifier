@@ -28,7 +28,7 @@
                     Style="{StaticResource NavViewNoRoundCorner}"
                     Grid.Row="1">
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Find" Content="Bazaar Explorer" IsSelected="True" Tag="Explorer" />
+                <NavigationViewItem Icon="Find" Content="Flipping Explorer" IsSelected="True" Tag="Explorer" />
                 <NavigationViewItem Icon="Flag" Content="Alerts" Tag="Alerts" />
                 <NavigationViewItem Icon="Shuffle" Content="Flipping Tutorial" Tag="Tutorial" />
             </NavigationView.MenuItems>

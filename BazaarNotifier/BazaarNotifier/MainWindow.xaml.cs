@@ -1,4 +1,5 @@
 using BazaarNotifier.Lib;
+using BazaarNotifier.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -24,8 +25,9 @@ namespace BazaarNotifier
         public MainWindow()
         {
             InitializeComponent();
+            BazaarAppContext.MainWindow = this;
 
-            MainFrame.Navigate(typeof(MainPage));
+            MainFrame.Navigate(typeof(FlipExplorer));
 
             Title = "Bazaar Notifier";
             MainNav.ItemInvoked += OnNavigation;
@@ -36,10 +38,10 @@ namespace BazaarNotifier
 
         public async Task LoadItems()
         {
-            var items = await HypixelAPI.GetItems();
+            var items = await HypixelAPI.GetSkyblockItems();
             DispatcherQueue.TryEnqueue(() =>
             {
-                AppMemory.Items = items;
+                BazaarAppContext.Items = items;
             });
         }
 
@@ -51,7 +53,7 @@ namespace BazaarNotifier
                 switch (tag)
                 {
                     case "Explorer":
-                        MainFrame.Navigate(typeof(MainPage));
+                        MainFrame.Navigate(typeof(FlipExplorer));
                         break;
                     case "Alerts":
                         MainFrame.Navigate(typeof(Notifications));

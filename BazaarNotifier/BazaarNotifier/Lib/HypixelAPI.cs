@@ -23,9 +23,14 @@ namespace BazaarNotifier.Lib
             }
         }
 
-        public async Task<List<Item>> GetItems()
+        public async Task<List<Item>> GetSkyblockItems()
         {
             return (await HttpClient.GetFromJsonAsync<SkyblockItemsResponse>("resources/skyblock/items")).Items;
+        }
+
+        public async Task<List<BazaarItem>> GetBazaar()
+        {
+            throw new NotImplementedException();
         }
     }
 }
