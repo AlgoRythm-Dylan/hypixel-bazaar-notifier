@@ -12,8 +12,12 @@
           Background="{StaticResource ControlAltFillColorSecondaryBrush}"
           Width="250">
         <StackPanel>
-            <TextBlock Text="{x:Bind FlipItem.Name, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
-            <TextBlock>Max Hourly Profit: <Run Text="{x:Bind FormattedHourlyProfit, Mode=OneWay}" /></TextBlock>
+            <TextBlock Margin="10 10 10 0"
+                       Text="{x:Bind FlipItem.Name, Mode=OneWay}"
+                       TextTrimming="CharacterEllipsis"/>
+            <TextBlock Margin="10 0 10 10">Max Hourly Profit:
+                <Run Text="{x:Bind FormattedHourlyProfit, Mode=OneWay}" />
+            </TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>
