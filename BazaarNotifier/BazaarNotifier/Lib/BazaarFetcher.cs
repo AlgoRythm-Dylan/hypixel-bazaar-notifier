@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,13 +29,20 @@ namespace BazaarNotifier.Lib
             var bazaar = await API.GetBazaar();
             foreach (var item in bazaar)
             {
-                item.Name = BazaarAppContext.Items.Where(i => i.ID == item.ID).FirstOrDefault()?.Name
-                                                        ?? FormatUnknownItemName(item.ID);
+                var relatedItem = BazaarAppContext.Items.Where(i => i.ID == item.ID).FirstOrDefault();
+                if (relatedItem != null)
+                {
+                    item.Name = StripColorCodes(relatedItem.Name);
+                }
+                else
+                {
+                    item.Name = FormatUnknownItemName(item.ID);
+                }
             }
             BazaarAppContext.DispatcherQueue.TryEnqueue(() =>
             {
                 LastFetch = bazaar;
-                Fetched.Invoke(this, new BazaarFetchedEventArgs(bazaar));
+                Fetched?.Invoke(this, new BazaarFetchedEventArgs(bazaar));
             });
         }
         public async void Start()
@@ -44,10 +52,15 @@ namespace BazaarNotifier.Lib
             await Fetch();
             await Tick();
         }
+        private string StripColorCodes(string itemId)
+        {
+            return Regex.Replace(itemId, "§.", "");
+        }
         private string FormatUnknownItemName(string itemId)
         {
-            return new CultureInfo("en-US", false)
-                    .TextInfo.ToTitleCase(itemId.ToLower().Replace("_", " ").Replace(":", ""));
+            var formatted = itemId.ToLower().Replace("_", " ").Replace(":", "");
+            formatted = StripColorCodes(formatted);
+            return new CultureInfo("en-US", false).TextInfo.ToTitleCase(formatted);
         }
     }
 }

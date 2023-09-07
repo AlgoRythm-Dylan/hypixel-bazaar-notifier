@@ -27,5 +27,16 @@ namespace BazaarNotifier.Lib.Models
         /// limit the auto refresh count so as to not waste bandwidth
         /// </summary>
         public int AutoRefreshLimit { get; set; } = 720;
+        /// <summary>
+        /// Filter out items that aren't really moving, even if
+        /// they have pretty large margins
+        /// </summary>
+        public long MinimumVolume { get; set; } = 50_000;
+        /// <summary>
+        /// Filter out market manipulations - if the buy price
+        /// (aka - what flippers SELL for) is 250x the sell price
+        /// (aka - what flippers BUY for), then don't show
+        /// </summary>
+        public double MaxPriceRatio { get; set; } = 500;
     }
 }

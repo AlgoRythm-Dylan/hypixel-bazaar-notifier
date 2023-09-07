@@ -14,7 +14,6 @@ namespace BazaarNotifier.Lib
     {
         public static AppSettings Settings { get; set; }
         public static List<Item> Items { get; set; }
-        public static MainWindow MainWindow { get; set; }
         public static BazaarFetcher BazaarFetcher { get; set; } = new();
         public static DispatcherQueue DispatcherQueue { get; set; }
     }

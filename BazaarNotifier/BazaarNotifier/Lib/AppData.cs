@@ -27,7 +27,15 @@ namespace BazaarNotifier.Lib
         public static async Task Save<T>(string fileName, T data)
         {
             var folder = ApplicationData.Current.LocalFolder;
-            var file = await folder.CreateFileAsync(fileName);
+            StorageFile file;
+            try
+            {
+                file = await folder.CreateFileAsync(fileName);
+            }
+            catch
+            {
+                file = await folder.GetFileAsync(fileName);
+            }
             await FileIO.WriteTextAsync(file, JsonSerializer.Serialize(data));
         }
     }

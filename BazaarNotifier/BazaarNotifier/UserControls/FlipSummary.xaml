@@ -10,14 +10,36 @@
 
     <Grid CornerRadius="4"
           Background="{StaticResource ControlAltFillColorSecondaryBrush}"
-          Width="250">
+          Width="350">
         <StackPanel>
             <TextBlock Margin="10 10 10 0"
                        Text="{x:Bind FlipItem.Name, Mode=OneWay}"
-                       TextTrimming="CharacterEllipsis"/>
+                       TextTrimming="CharacterEllipsis"
+                       FontSize="22"
+                       FontWeight="Bold"/>
             <TextBlock Margin="10 0 10 10">Max Hourly Profit:
-                <Run Text="{x:Bind FormattedHourlyProfit, Mode=OneWay}" />
+                <Run Text="{x:Bind FormattedHourlyProfit, Mode=OneWay}"
+                     Foreground="{StaticResource SystemFillColorSuccessBrush}"/>
             </TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock>
+                    BP: <Run Text="{x:Bind FormattedBuyPrice, Mode=OneWay}"
+                             Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
+                    SP: <Run Text="{x:Bind FormattedSellPrice, Mode=OneWay}"
+                             Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
+                </TextBlock>
+                <TextBlock TextAlignment="Right" Grid.Column="1">
+                    IB: <Run Text="{x:Bind FormattedInstantBuys, Mode=OneWay}"
+                             Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
+                    IS: <Run Text="{x:Bind FormattedInstantSells, Mode=OneWay}"
+                             Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
+                </TextBlock>
+            </Grid>
+
         </StackPanel>
     </Grid>
 </UserControl>

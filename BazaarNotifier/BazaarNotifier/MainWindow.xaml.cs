@@ -1,4 +1,5 @@
 using BazaarNotifier.Lib;
+using BazaarNotifier.Lib.Models;
 using BazaarNotifier.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -21,13 +22,10 @@ namespace BazaarNotifier
     public sealed partial class MainWindow : Window
     {
         private string CurrentNavLocation { get; set; } = null;
-        private HypixelAPI HypixelAPI { get; set; } = new();
+        private HypixelAPI API { get; set; } = new();
         public MainWindow()
         {
             InitializeComponent();
-            BazaarAppContext.MainWindow = this;
-
-            MainFrame.Navigate(typeof(FlipExplorer));
 
             Title = "Bazaar Notifier";
             MainNav.ItemInvoked += OnNavigation;
@@ -35,7 +33,7 @@ namespace BazaarNotifier
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(CustomTitleBar);
 
-            LoadItems();
+            LoadData();
         }
 
         private void BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
@@ -52,12 +50,21 @@ namespace BazaarNotifier
             MainNav.IsBackEnabled = MainFrame.CanGoBack;
         }
 
-        public async Task LoadItems()
+        public async Task LoadData()
         {
-            var items = await HypixelAPI.GetSkyblockItems();
-            DispatcherQueue.TryEnqueue(() =>
+            var settings = await AppData.Load<AppSettings>("settings");
+            if (settings == null)
             {
+                settings = new();
+                await AppData.Save("settings", settings);
+            }
+            var items = await API.GetSkyblockItems();
+            BazaarAppContext.DispatcherQueue.TryEnqueue(() =>
+            {
+                BazaarAppContext.Settings = settings;
                 BazaarAppContext.Items = items;
+                BazaarAppContext.BazaarFetcher.Start();
+                MainFrame.Navigate(typeof(FlipExplorer));
             });
         }
 

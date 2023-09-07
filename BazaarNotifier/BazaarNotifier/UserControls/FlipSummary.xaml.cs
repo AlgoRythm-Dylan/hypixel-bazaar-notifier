@@ -1,3 +1,4 @@
+using BazaarNotifier.Lib;
 using BazaarNotifier.Lib.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -34,6 +35,10 @@ namespace BazaarNotifier.UserControls
                 _item = value;
                 OnPropertyChanged("FlipItem");
                 OnPropertyChanged("FormattedHourlyProfit");
+                OnPropertyChanged("FormattedInstantSells");
+                OnPropertyChanged("FormattedInstantBuys");
+                OnPropertyChanged("FormattedBuyPrice");
+                OnPropertyChanged("FormattedSellPrice");
             }
         }
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -42,6 +47,62 @@ namespace BazaarNotifier.UserControls
             get
             {
                 return FlipItem?.PotentialHourlyProfit.ToString("n2");
+            }
+        }
+        public string FormattedInstantSells
+        {
+            get
+            {
+                if(FlipItem != null)
+                {
+                    return NumberFormatter.FormatNumber(FlipItem.SellMovingWeek);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public string FormattedInstantBuys
+        {
+            get
+            {
+                if (FlipItem != null)
+                {
+                    return NumberFormatter.FormatNumber(FlipItem.BuyMovingWeek);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public string FormattedBuyPrice
+        {
+            get
+            {
+                if (FlipItem != null)
+                {
+                    return NumberFormatter.FormatNumber((long)FlipItem.BuyPrice);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+        public string FormattedSellPrice
+        {
+            get
+            {
+                if (FlipItem != null)
+                {
+                    return NumberFormatter.FormatNumber((long)FlipItem.SellPrice);
+                }
+                else
+                {
+                    return "";
+                }
             }
         }
         public FlipSummary()

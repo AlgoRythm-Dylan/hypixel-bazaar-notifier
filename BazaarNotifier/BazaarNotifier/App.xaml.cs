@@ -30,12 +30,10 @@ namespace BazaarNotifier
     /// </summary>
     public partial class App : Application
     {
-        private HypixelAPI API { get; set; } = new();
         public App()
         {
             InitializeComponent();
             BazaarAppContext.DispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            LoadData();
         }
 
         /// <summary>
@@ -46,23 +44,6 @@ namespace BazaarNotifier
         {
             m_window = new MainWindow();
             m_window.Activate();
-        }
-
-        public async Task LoadData()
-        {
-            var settings = await AppData.Load<AppSettings>("settings");
-            if(settings == null)
-            {
-                settings = new();
-                await AppData.Save("settings", settings);
-            }
-            var items = await API.GetSkyblockItems();
-            BazaarAppContext.DispatcherQueue.TryEnqueue(() =>
-            {
-                BazaarAppContext.Settings = settings;
-                BazaarAppContext.Items = items;
-                BazaarAppContext.BazaarFetcher.Start();
-            });
         }
 
         private Window m_window;

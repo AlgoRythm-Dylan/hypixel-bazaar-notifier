@@ -28,7 +28,6 @@
                         TextAlignment="Center">Flip Explorer</TextBlock>
                 </StackPanel>
                 <ProgressRing x:Name="LoadingSpinner" HorizontalAlignment="Center" Margin="0 50 0 0"></ProgressRing>
-                <TextBlock x:Name="ItemCount"></TextBlock>
                 <GridView Margin="{StaticResource Spacing}"
                           ItemTemplate="{StaticResource GridTemplate}"
                           HorizontalAlignment="Center"
