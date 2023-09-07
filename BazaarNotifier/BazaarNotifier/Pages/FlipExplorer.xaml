@@ -31,7 +31,9 @@
                 <GridView Margin="{StaticResource Spacing}"
                           ItemTemplate="{StaticResource GridTemplate}"
                           HorizontalAlignment="Center"
-                          x:Name="ItemsGrid">
+                          x:Name="ItemsGrid"
+                          IsItemClickEnabled="True"
+                          ItemClick="ItemsGrid_ItemClick">
                     
                 </GridView>
             </StackPanel>

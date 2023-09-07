@@ -83,7 +83,7 @@
                 </Grid>
                 <Button Style="{StaticResource AccentButtonStyle}"
                         Width="250"
-                        Margin="0 50 0 0"
+                        Margin="0 50 10 0"
                         HorizontalAlignment="Right"
                         Click="Save_Click">Save</Button>
             </StackPanel>

@@ -81,7 +81,7 @@ namespace BazaarNotifier
                     case "Alerts":
                         MainFrame.Navigate(typeof(Notifications));
                         break;
-                    case "Tutorial":
+                    case "Flipping Tutorial":
                         MainFrame.Navigate(typeof(Flipping));
                         break;
                     case "Settings":

@@ -29,9 +29,13 @@
                     Style="{StaticResource NavViewNoRoundCorner}"
                     Grid.Row="1">
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Find" Content="Flipping Explorer" IsSelected="True" Tag="Explorer" />
+                <NavigationViewItem Icon="Shuffle" Content="Flipping Explorer" IsSelected="True" Tag="Explorer" />
                 <NavigationViewItem Icon="Flag" Content="Alerts" Tag="Alerts" />
-                <NavigationViewItem Icon="Shuffle" Content="Flipping Tutorial" Tag="Tutorial" />
+                <NavigationViewItem Icon="Help" Content="Tutorials">
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem Icon="Shuffle" Content="Flipping Tutorial" IsSelected="True" Tag="Flipping Tutorial" />
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
             <Frame x:Name="MainFrame"></Frame>
         </NavigationView>

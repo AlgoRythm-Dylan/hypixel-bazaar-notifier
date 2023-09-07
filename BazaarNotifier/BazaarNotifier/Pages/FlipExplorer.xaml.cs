@@ -1,5 +1,6 @@
 using BazaarNotifier.Lib;
 using BazaarNotifier.Lib.Models;
+using BazaarNotifier.UserControls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -72,6 +73,12 @@ namespace BazaarNotifier.Pages
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ItemsGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var item = e.ClickedItem as FlipAnalyzedBazaarItem;
+            Frame.Navigate(typeof(FlipDetails), item.ID);
         }
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="BazaarNotifier.Pages.FlipDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BazaarNotifier.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <ScrollView>
+            
+            <StackPanel Style="{StaticResource Page}">
+                <Button x:Name="BackButton"
+                        Click="BackButton_Click"
+                        Margin="{StaticResource Spacing}"
+                        HorizontalAlignment="Right">
+                    <FontIcon Glyph="&#xE8BB;"/>
+                </Button>
+                <TextBlock Style="{StaticResource DisplayTextBlockStyle}"
+                        Margin="{StaticResource SpacingLg}"
+                        TextAlignment="Center"
+                        Text="{x:Bind Item.Name, Mode=OneWay}"/>
+                <TextBlock>
+                    This item is currently insta-selling for
+                    <Run Text="{x:Bind SellPriceFormatted, Mode=OneWay}"/>
+                    and players are insta-buying it for
+                    <Run Text="{x:Bind BuyPriceFormatted, Mode=OneWay}"/>.
+                </TextBlock>
+            </StackPanel>
+        </ScrollView>
+    </Grid>
+</Page>
