@@ -12,5 +12,9 @@ namespace BazaarNotifier.Lib.APIResponses
     {
         [JsonPropertyName("quick_status")]
         public BazaarItem BazaarItem { get; set; }
+        [JsonPropertyName("buy_summary")]
+        public List<SkyblockBazaarItemOrderSummary> BuySummary { get; set; }
+        [JsonPropertyName("sell_summary")]
+        public List<SkyblockBazaarItemOrderSummary> SellSummary { get; set; }
     }
 }

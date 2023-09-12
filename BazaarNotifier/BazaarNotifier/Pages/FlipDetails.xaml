@@ -17,12 +17,17 @@
                         Click="BackButton_Click"
                         Margin="{StaticResource Spacing}"
                         HorizontalAlignment="Right">
-                    <FontIcon Glyph="&#xE8BB;"/>
+                    Close
                 </Button>
                 <TextBlock Style="{StaticResource DisplayTextBlockStyle}"
                         Margin="{StaticResource SpacingLg}"
                         TextAlignment="Center"
                         Text="{x:Bind Item.Name, Mode=OneWay}"/>
+                <Button Style="{StaticResource AccentButtonStyle}"
+                        Margin="{StaticResource Spacing}"
+                        HorizontalAlignment="Center">
+                    Add to Favorites
+                </Button>
                 <TextBlock>
                     This item is currently insta-selling for
                     <Run Text="{x:Bind SellPriceFormatted, Mode=OneWay}"/>

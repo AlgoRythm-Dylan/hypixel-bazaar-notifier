@@ -20,6 +20,8 @@
                 BuyVolume = analyzezdItem.BuyVolume,
                 BuyMovingWeek = analyzezdItem.BuyMovingWeek,
                 BuyOrders = analyzezdItem.BuyOrders,
+                BuyOrderList = analyzezdItem.BuyOrderList,
+                SellOrderList = analyzezdItem.SellOrderList,
                 PotentialHourlyProfit = analysisResult,
                 IsLimitedByBudget = isLimitedByBudget
             };

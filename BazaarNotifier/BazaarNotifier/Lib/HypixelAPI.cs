@@ -32,7 +32,18 @@ namespace BazaarNotifier.Lib
         public async Task<List<BazaarItem>> GetBazaar()
         {
             var response = await HttpClient.GetFromJsonAsync<SkyblockBazaarResponse>("skyblock/bazaar");
-            return response.Items.Select(x => x.Value.BazaarItem).ToList();
+            var list = new List<BazaarItem>();
+            foreach(var item in response.Items)
+            {
+                var bzItem = item.Value.BazaarItem;
+                // These items are flipped because uhhh buy summary refers
+                // to insta-buyers / sellers. Buy summary is the list of
+                // sell orders. Terrible nomenclature but it is what it is.
+                bzItem.SellOrderList = item.Value.BuySummary;
+                bzItem.BuyOrderList = item.Value.SellSummary;
+                list.Add(bzItem);
+            }
+            return list;
         }
     }
 }

@@ -17,11 +17,13 @@ namespace BazaarNotifier.Lib
         public event EventHandler<BazaarFetchedEventArgs> Fetched;
         protected HypixelAPI API { get; set; } = new();
         public List<BazaarItem> LastFetch { get; set; } = null;
+        public int CurrentFetchCount { get; set; } = 0;
         public async Task Tick()
         {
-            while(await Timer.WaitForNextTickAsync() && Running)
+            while(await Timer.WaitForNextTickAsync() && Running && ShouldTick())
             {
                 await Fetch();
+                CurrentFetchCount++;
             }
         }
         public async Task Fetch()
@@ -45,10 +47,16 @@ namespace BazaarNotifier.Lib
                 Fetched?.Invoke(this, new BazaarFetchedEventArgs(bazaar));
             });
         }
+        protected bool ShouldTick()
+        {
+            return BazaarAppContext.Settings.AutoRefreshLimit == 0 ||
+                   CurrentFetchCount < BazaarAppContext.Settings.AutoRefreshLimit;
+        }
         public async void Start()
         {
-            // TODO: un-hardcode this
             Timer = new PeriodicTimer(TimeSpan.FromMilliseconds(BazaarAppContext.Settings.AutoRefreshDelay));
+            CurrentFetchCount = 0;
+            Running = true;
             await Fetch();
             await Tick();
         }

@@ -1,5 +1,6 @@
 using BazaarNotifier.Lib;
 using BazaarNotifier.Lib.Models;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -15,6 +16,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -37,8 +39,8 @@ namespace BazaarNotifier.UserControls
                 OnPropertyChanged("FormattedHourlyProfit");
                 OnPropertyChanged("FormattedInstantSells");
                 OnPropertyChanged("FormattedInstantBuys");
-                OnPropertyChanged("FormattedBuyPrice");
-                OnPropertyChanged("FormattedSellPrice");
+                OnPropertyChanged("FormattedBuyForPrice");
+                OnPropertyChanged("FormattedSellForPrice");
             }
         }
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -77,13 +79,13 @@ namespace BazaarNotifier.UserControls
                 }
             }
         }
-        public string FormattedBuyPrice
+        public string FormattedBuyForPrice
         {
             get
             {
                 if (FlipItem != null)
                 {
-                    return NumberFormatter.FormatNumber((long)FlipItem.BuyPrice);
+                    return NumberFormatter.FormatNumber((long)FlipItem.TopBuyOrderPrice);
                 }
                 else
                 {
@@ -91,13 +93,13 @@ namespace BazaarNotifier.UserControls
                 }
             }
         }
-        public string FormattedSellPrice
+        public string FormattedSellForPrice
         {
             get
             {
                 if (FlipItem != null)
                 {
-                    return NumberFormatter.FormatNumber((long)FlipItem.SellPrice);
+                    return NumberFormatter.FormatNumber((long)FlipItem.TopSellOrderPrice);
                 }
                 else
                 {
@@ -108,6 +110,7 @@ namespace BazaarNotifier.UserControls
         public FlipSummary()
         {
             InitializeComponent();
+            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Hand);
         }
         public void OnPropertyChanged(string propertyName)
         {

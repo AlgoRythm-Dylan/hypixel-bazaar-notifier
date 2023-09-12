@@ -27,9 +27,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock>
-                    BP: <Run Text="{x:Bind FormattedBuyPrice, Mode=OneWay}"
+                    Buy at: <Run Text="{x:Bind FormattedBuyForPrice, Mode=OneWay}"
                              Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
-                    SP: <Run Text="{x:Bind FormattedSellPrice, Mode=OneWay}"
+                    Sell for: <Run Text="{x:Bind FormattedSellForPrice, Mode=OneWay}"
                              Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
                 </TextBlock>
                 <TextBlock TextAlignment="Right" Grid.Column="1">
