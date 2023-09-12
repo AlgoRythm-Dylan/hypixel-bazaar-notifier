@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid CornerRadius="4"
+    <Grid CornerRadius="{StaticResource Rounding}"
           Background="{StaticResource ControlAltFillColorSecondaryBrush}"
           Width="350">
         <StackPanel>
@@ -27,7 +27,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock>
-                    Buy at: <Run Text="{x:Bind FormattedBuyForPrice, Mode=OneWay}"
+                    Buy for: <Run Text="{x:Bind FormattedBuyForPrice, Mode=OneWay}"
                              Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
                     Sell for: <Run Text="{x:Bind FormattedSellForPrice, Mode=OneWay}"
                              Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>

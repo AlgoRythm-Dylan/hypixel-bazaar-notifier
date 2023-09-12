@@ -9,6 +9,28 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Style TargetType="Grid" x:Key="SummaryItem">
+            <Setter Property="Background" Value="{StaticResource ControlAltFillColorSecondaryBrush}" />
+            <Setter Property="Width" Value="190" />
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Height" Value="100" />
+            <Setter Property="CornerRadius" Value="{StaticResource Rounding}" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="SummaryItemLabel">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="SummaryItemValue">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource SystemFillColorSuccessBrush}" />
+        </Style>
+    </Page.Resources>
+    
     <Grid>
         <ScrollView>
             
@@ -23,16 +45,68 @@
                         Margin="{StaticResource SpacingLg}"
                         TextAlignment="Center"
                         Text="{x:Bind Item.Name, Mode=OneWay}"/>
-                <Button Style="{StaticResource AccentButtonStyle}"
+                <!--<Button Style="{StaticResource AccentButtonStyle}"
                         Margin="{StaticResource Spacing}"
                         HorizontalAlignment="Center">
                     Add to Favorites
-                </Button>
-                <TextBlock>
-                    This item is currently insta-selling for
-                    <Run Text="{x:Bind SellPriceFormatted, Mode=OneWay}"/>
-                    and players are insta-buying it for
-                    <Run Text="{x:Bind BuyPriceFormatted, Mode=OneWay}"/>.
+                </Button>-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Grid Style="{StaticResource SummaryItem}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource SummaryItemLabel}">Buy For</TextBlock>
+                        <TextBlock Text="{x:Bind Item.TopBuyOrderPrice, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n2}"
+                                   Grid.Row="1"
+                                   Style="{StaticResource SummaryItemValue}"/>
+                    </Grid>
+                    <Grid Style="{StaticResource SummaryItem}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource SummaryItemLabel}">Sell For</TextBlock>
+                        <TextBlock Text="{x:Bind Item.TopSellOrderPrice, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n2}"
+                                   Grid.Row="1"
+                                   Style="{StaticResource SummaryItemValue}"/>
+                    </Grid>
+                    <Grid Style="{StaticResource SummaryItem}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource SummaryItemLabel}">Insta-sells 1 week</TextBlock>
+                        <TextBlock Text="{x:Bind Item.SellMovingWeek, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
+                                   Grid.Row="1"
+                                   Style="{StaticResource SummaryItemValue}"/>
+                    </Grid>
+                    <Grid Style="{StaticResource SummaryItem}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource SummaryItemLabel}">Insta-buys 1 week</TextBlock>
+                        <TextBlock Text="{x:Bind Item.BuyMovingWeek, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
+                                   Grid.Row="1"
+                                   Style="{StaticResource SummaryItemValue}"/>
+                    </Grid>
+                </StackPanel>
+                <TextBlock TextWrapping="Wrap" Margin="13" LineHeight="24" FontSize="15">
+                    With your budget of
+                    <Run Text="{x:Bind Budget, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
+                         Foreground="{StaticResource SystemFillColorSuccessBrush}" />,
+                    you can afford
+                    <Run Text="{x:Bind AmountCanAfford, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
+                         Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
+                    of this item. Given the current one-week volume,
+                    a buy order would recieve
+                    <Run Text="{x:Bind CanBuyPerOneMinute, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
+                         Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
+                    items per minute and a buy order would sell
+                    <Run Text="{x:Bind CanSellPerOneMinute, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
+                         Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
+                    items per minute.
                 </TextBlock>
             </StackPanel>
         </ScrollView>

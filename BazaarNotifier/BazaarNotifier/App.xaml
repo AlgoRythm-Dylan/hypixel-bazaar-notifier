@@ -3,20 +3,25 @@
     x:Class="BazaarNotifier.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:BazaarNotifier">
+    xmlns:local="using:BazaarNotifier"
+    xmlns:lib="using:BazaarNotifier.Lib">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
             
+            <!-- Get rid of nav view corner -->
             <!--<CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>-->
+
+            <lib:NumberDisplayConverter x:Key="NumberDisplayConverter"/>
 
             <!-- Variables -->
             <Thickness x:Key="Spacing">10</Thickness>
             <Thickness x:Key="SpacingLg">20</Thickness>
             
             <x:Double x:Key="PageWidth">800</x:Double>
+            <CornerRadius x:Key="Rounding">4</CornerRadius>
 
             <!-- Styles -->
 

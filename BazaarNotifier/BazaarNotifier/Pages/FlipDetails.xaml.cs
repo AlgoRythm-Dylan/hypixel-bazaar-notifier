@@ -23,32 +23,44 @@ namespace BazaarNotifier.Pages
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private FlipAnalyzedBazaarItem Item { get; set; }
 
-        private string SellPriceFormatted
+        private double Budget
         {
             get
             {
-                if (Item != null)
-                {
-                    return Item.SellPrice.ToString("n2");
-                }
-                else
-                {
-                    return "";
-                }
+                return BazaarAppContext.Settings.Budget;
             }
         }
-        private string BuyPriceFormatted
+
+        private long AmountCanAfford
         {
             get
             {
                 if (Item != null)
-                {
-                    return Item.BuyPrice.ToString("n2");
-                }
+                    return (long)(BazaarAppContext.Settings.Budget / Item.TopSellOrderPrice);
                 else
-                {
-                    return "";
-                }
+                    return 0;
+            }
+        }
+
+        private long CanBuyPerOneMinute
+        {
+            get
+            {
+                if (Item != null)
+                    return Item.SellMovingWeek / 168 / 60; // 168 hours in a week
+                else
+                    return 0;
+            }
+        }
+
+        private long CanSellPerOneMinute
+        {
+            get
+            {
+                if (Item != null)
+                    return Item.BuyMovingWeek / 168 / 60;
+                else
+                    return 0;
             }
         }
 
@@ -69,10 +81,30 @@ namespace BazaarNotifier.Pages
                                              .LastFetch
                                              .FirstOrDefault(i => i.ID == id);
             // Analyze item, but don't use global filters
-            Item = BazaarAnalyzer.AnalyzeItem(bazaarItem, true);
+            OnSetItem(bazaarItem);
+            BazaarAppContext.BazaarFetcher.Fetched += BazaarFetcher_Fetched;
+        }
+
+        private void BazaarFetcher_Fetched(object sender, BazaarFetchedEventArgs e)
+        {
+            var bazaarItem = BazaarAppContext.BazaarFetcher
+                                             .LastFetch
+                                             .FirstOrDefault(i => i.ID == Item.ID);
+            OnSetItem(bazaarItem);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            BazaarAppContext.BazaarFetcher.Fetched -= BazaarFetcher_Fetched;
+        }
+
+        public void OnSetItem(BazaarItem item)
+        {
+            Item = BazaarAnalyzer.AnalyzeItem(item, true);
             OnPropertyChanged("Item");
-            OnPropertyChanged("SellPriceFormatted");
-            OnPropertyChanged("BuyPriceFormatted");
+            OnPropertyChanged("AmountCanAfford");
+            OnPropertyChanged("CanBuyPerOneMinute");
+            OnPropertyChanged("CanSellPerOneMinute");
         }
 
         public void OnPropertyChanged(string propertyName)
