@@ -103,7 +103,7 @@
                     a buy order would recieve
                     <Run Text="{x:Bind CanBuyPerOneMinute, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
                          Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
-                    items per minute and a buy order would sell
+                    items per minute and a sell order would sell
                     <Run Text="{x:Bind CanSellPerOneMinute, Mode=OneWay, Converter={StaticResource NumberDisplayConverter}, ConverterParameter=n0}"
                          Foreground="{StaticResource AccentTextFillColorTertiaryBrush}"/>
                     items per minute.
