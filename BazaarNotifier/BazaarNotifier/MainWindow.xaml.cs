@@ -10,19 +10,32 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 namespace BazaarNotifier
 {
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private string CurrentNavLocation { get; set; } = null;
         private HypixelAPI API { get; set; } = new();
+        private PeriodicTimer Ticker { get; set; }
+        private Visibility StatusBarVisibility
+        {
+            get
+            {
+                if (BazaarAppContext.Settings == null)
+                    return Visibility.Visible;
+                return BazaarAppContext.Settings.ShowStatusBar ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -65,7 +78,38 @@ namespace BazaarNotifier
                 BazaarAppContext.Items = items;
                 BazaarAppContext.BazaarFetcher.Start();
                 MainFrame.Navigate(typeof(FlipExplorer));
+                BazaarAppContext.SettingsUpdated += SettingsUpdated;
+                BazaarAppContext.SettingsWereUpdated();
+                Tick();
             });
+        }
+
+        private async void Tick()
+        {
+            Ticker = new PeriodicTimer(TimeSpan.FromMilliseconds(100));
+            while(await Ticker.WaitForNextTickAsync())
+            {
+                BazaarAppContext.DispatcherQueue.TryEnqueue(() =>
+                {
+                    OnTick();
+                });
+            }
+        }
+
+        private void OnTick()
+        {
+            if(BazaarAppContext.Settings.ShowStatusBar)
+            {
+                var timeSinceLastUpdate = (DateTime.Now.Ticks - BazaarAppContext.BazaarFetcher.LastFetchTime.Ticks) / TimeSpan.TicksPerMillisecond;
+                var timeUntilNextUpdate = Math.Max(0, BazaarAppContext.Settings.AutoRefreshDelay - timeSinceLastUpdate);
+                var progress = 100 - ((double)timeUntilNextUpdate / BazaarAppContext.Settings.AutoRefreshDelay * 100);
+                NextTickProgress.Value = progress;
+            }
+        }
+
+        private void SettingsUpdated(object sender, EventArgs e)
+        {
+            OnPropertyChanged("StatusBarVisibility");
         }
 
         private void OnNavigation(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -90,6 +134,11 @@ namespace BazaarNotifier
                 }
             }
             MainNav.IsBackEnabled = MainFrame.CanGoBack;
+        }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

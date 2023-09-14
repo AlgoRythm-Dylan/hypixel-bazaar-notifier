@@ -16,5 +16,11 @@ namespace BazaarNotifier.Lib
         public static List<Item> Items { get; set; }
         public static BazaarFetcher BazaarFetcher { get; set; } = new();
         public static DispatcherQueue DispatcherQueue { get; set; }
+
+        public static event EventHandler<EventArgs> SettingsUpdated = delegate { };
+        public static void SettingsWereUpdated(object sender = null)
+        {
+            SettingsUpdated?.Invoke(sender, new EventArgs());
+        }
     }
 }

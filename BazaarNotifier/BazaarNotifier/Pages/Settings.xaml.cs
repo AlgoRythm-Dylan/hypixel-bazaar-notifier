@@ -26,6 +26,7 @@ namespace BazaarNotifier.Pages
     public sealed partial class Settings : Page
     {
 
+        public bool ShowStatusBar { get; set; } = BazaarAppContext.Settings.ShowStatusBar;
         public double Budget { get; set; } = BazaarAppContext.Settings.Budget;
         public bool AutoRefreshEnabled { get; set; } = BazaarAppContext.Settings.AutoRefreshEnabled;
         public int AutoRefreshLimit { get; set; } = BazaarAppContext.Settings.AutoRefreshLimit;
@@ -38,6 +39,7 @@ namespace BazaarNotifier.Pages
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            BazaarAppContext.Settings.ShowStatusBar = ShowStatusBar;
             BazaarAppContext.Settings.Budget = Budget;
             //BazaarAppContext.Settings.AutoRefreshEnabled = AutoRefreshEnabled;
             //BazaarAppContext.Settings.AutoRefreshLimit = AutoRefreshLimit;
@@ -52,6 +54,7 @@ namespace BazaarNotifier.Pages
                 XamlRoot = XamlRoot
             };
             dialog.ShowAsync();
+            BazaarAppContext.SettingsWereUpdated();
         }
     }
 }

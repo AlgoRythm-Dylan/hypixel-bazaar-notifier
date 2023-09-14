@@ -38,5 +38,14 @@ namespace BazaarNotifier.Lib.Models
         /// (aka - what flippers BUY for), then don't show
         /// </summary>
         public double MaxPriceRatio { get; set; } = 500;
+        /// <summary>
+        /// Whether or not to show the status bar at the bottom
+        /// of the app
+        /// </summary>
+        public bool ShowStatusBar { get; set; } = true;
+        /// <summary>
+        /// Can be one of: Ring, Bar
+        /// </summary>
+        public string ProgressBarStyle { get; set; } = "Ring";
     }
 }

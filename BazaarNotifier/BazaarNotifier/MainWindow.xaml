@@ -17,11 +17,29 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" x:Name="CustomTitleBar">
+        <Grid Grid.Row="0" x:Name="CustomTitleBar">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <TextBlock>Bazaar Notifier</TextBlock>
-        </StackPanel>
+            <Grid Grid.Column="1" Visibility="{x:Bind StatusBarVisibility, Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="165"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock VerticalAlignment="Center"
+                           Visibility="Collapsed">Refresh Limit Hit, Please Restart App</TextBlock>
+                <ProgressBar VerticalAlignment="Center"
+                             Grid.Column="1"
+                             x:Name="NextTickProgress"
+                             Margin="30 0"></ProgressBar>
+            </Grid>
+        </Grid>
 
         <NavigationView PaneDisplayMode="LeftCompact"
                     x:Name="MainNav"

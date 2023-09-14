@@ -17,6 +17,7 @@ namespace BazaarNotifier.Lib
         public event EventHandler<BazaarFetchedEventArgs> Fetched;
         protected HypixelAPI API { get; set; } = new();
         public List<BazaarItem> LastFetch { get; set; } = null;
+        public DateTime LastFetchTime { get; set; }
         public int CurrentFetchCount { get; set; } = 0;
         public async Task Tick()
         {
@@ -28,6 +29,7 @@ namespace BazaarNotifier.Lib
         }
         public async Task Fetch()
         {
+            LastFetchTime = DateTime.Now;
             var bazaar = await API.GetBazaar();
             foreach (var item in bazaar)
             {

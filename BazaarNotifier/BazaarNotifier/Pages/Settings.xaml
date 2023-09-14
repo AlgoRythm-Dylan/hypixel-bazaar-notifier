@@ -15,6 +15,7 @@
                 <TextBlock Style="{StaticResource DisplayTextBlockStyle}"
                    Margin="{StaticResource SpacingLg}"
                    TextAlignment="Center">Settings</TextBlock>
+                <CheckBox Margin="10 50 10 10" IsChecked="{x:Bind ShowStatusBar, Mode=TwoWay}">Show Status Bar</CheckBox>
                 <TextBlock Style="{StaticResource TitleTextBlockStyle}" Margin="10 30">Flip Explorer</TextBlock>
                 <Grid Margin="0 50 10 0">
                     <Grid.ColumnDefinitions>
