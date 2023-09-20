@@ -3,21 +3,10 @@ using BazaarNotifier.Lib.Models;
 using BazaarNotifier.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace BazaarNotifier
 {
@@ -27,6 +16,7 @@ namespace BazaarNotifier
         private string CurrentNavLocation { get; set; } = null;
         private HypixelAPI API { get; set; } = new();
         private PeriodicTimer Ticker { get; set; }
+        private bool IsClosed { get; set; } = false;
         private Visibility StatusBarVisibility
         {
             get
@@ -47,6 +37,12 @@ namespace BazaarNotifier
             SetTitleBar(CustomTitleBar);
 
             LoadData();
+            Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closed(object sender, WindowEventArgs args)
+        {
+            IsClosed = true;
         }
 
         private void BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
@@ -98,7 +94,7 @@ namespace BazaarNotifier
 
         private void OnTick()
         {
-            if(BazaarAppContext.Settings.ShowStatusBar)
+            if(BazaarAppContext.Settings.ShowStatusBar && !IsClosed)
             {
                 var timeSinceLastUpdate = (DateTime.Now.Ticks - BazaarAppContext.BazaarFetcher.LastFetchTime.Ticks) / TimeSpan.TicksPerMillisecond;
                 var timeUntilNextUpdate = Math.Max(0, BazaarAppContext.Settings.AutoRefreshDelay - timeSinceLastUpdate);
@@ -109,7 +105,7 @@ namespace BazaarNotifier
 
         private void SettingsUpdated(object sender, EventArgs e)
         {
-            OnPropertyChanged("StatusBarVisibility");
+            OnPropertyChanged(nameof(StatusBarVisibility));
         }
 
         private void OnNavigation(NavigationView sender, NavigationViewItemInvokedEventArgs args)
